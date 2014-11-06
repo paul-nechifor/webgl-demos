@@ -2,7 +2,7 @@
 
 Mostly simple things done with Three.js.
 
-![WebGL demos](screenshot.png)
+![WebGL demos](screenshot.jpg)
 
 ## Usage
 
