@@ -1,0 +1,7 @@
+{
+  "name": "webgl-demos",
+  "version": "0.0.0",
+  "dependencies": {
+    "threejs": "r62"
+  }
+}

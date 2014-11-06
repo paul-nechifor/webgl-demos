@@ -1,0 +1,11 @@
+extends ../intercessor-layout
+
+block content
+  .readable
+    ul#demo-list
+
+block scripts
+  script(src=app.paths.static + '/js/three.js')
+  script
+    | window.demoName = !{JSON.stringify(demoName)};
+    | window.rootPath = !{JSON.stringify(app.root)};
