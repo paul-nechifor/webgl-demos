@@ -6,6 +6,8 @@ block content
 
 block scripts
   script(src=app.paths.static + '/js/three.js')
+  script(src=app.paths.static + '/js/OBJLoader.js')
   script
     | window.demoName = !{JSON.stringify(demoName)};
     | window.rootPath = !{JSON.stringify(app.root)};
+    | window.staticPath = !{JSON.stringify(app.paths.static)};
