@@ -4,12 +4,15 @@
   "author": "Paul Nechifor <paul@nechifor.net> (http://nechifor.net/)",
   "scripts": {
     "build": "intercessor",
+    "up": "npm install && npm run intercessor-make && npm run build && npm run start",
+    "intercessor-make": "bower install",
     "start": "node build/app.js"
   },
   "dependencies": {
     "coffee-script": "^1.8.0",
     "gulp": "^3.8.6",
-    "intercessor": ">=0.3.2"
+    "intercessor": ">=0.3.2",
+    "webgl-world": "^0.1.0"
   },
   "repository": {
     "type": "git",
