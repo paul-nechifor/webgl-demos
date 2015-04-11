@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+        background: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="1000" height="1000"></canvas>
+    <script>
+    
+function Line(sx, sy, tx, ty) {
+    this.points = [];
+    this.minDist = 0.01;
+    this.maxVariance = 0.8;
+    
+    // 1000 = 1
+    // 100  = 0.5
+    // 10   = 0.1
+    
+    this.points.push(sx, sy);
+    this.genPoints(sx, sy, tx, ty);
+    this.points.push(tx, ty);
+}
+
+Line.prototype.genPoints = function (sx, sy, tx, ty) {
+    var dx = tx - sx;
+    var dy = ty - sy;
+    var d = Math.sqrt(dx * dx + dy * dy);
+    
+    if (d < this.minDist) {
+        return;
+    }
+        
+    // The middle point.
+    var mx = sx + dx / 2;
+    var my = sy + dy / 2;
+    
+    // The perpendicular in that point.
+    var u = Math.atan2(dy, dx) + Math.PI / 2;
+    
+    // Chosing the distance to vary it.
+    var vary = (Math.log(d * 1000)/Math.LN10) / 10;
+    var m = (Math.random() - 0.5) * d * vary;
+    
+    // Generating the new point.
+    var nx = mx + m * Math.cos(u);
+    var ny = my + m * Math.sin(u);
+    
+    this.genPoints(sx, sy, nx, ny);
+    this.points.push(nx, ny);
+    this.genPoints(nx, ny, tx, ty);
+};
+
+Line.prototype.drawOnCanvas = function (ctx) {
+    var p = this.points;
+    
+    ctx.beginPath();
+    ctx.moveTo(p[0] * 1000, p[1] * 1000);
+    
+    for (var i = 2, len = p.length; i < len; i += 2) {
+        //ctx.lineTo(p[i], p[i + 1]);
+        ctx.lineTo(p[i] * 1000 , p[i + 1] * 1000);
+    }
+    
+    ctx.stroke();
+};
+
+
+function LineSet(nLines) {
+    this.lines = [];
+    
+    this.genLines(nLines);
+}
+
+LineSet.prototype.genLines = function (nLines) {
+    var v = [0, 0, 0, 0];
+    
+    for (var i = 0; i < nLines; ) {
+        var pos1 = Math.random() * 4000;
+        var s1 = Math.floor(pos1 / 1000);
+        var pos2 = Math.random() * 4000;
+        var s2 = Math.floor(pos2 / 1000);
+        
+        if (s1 === s2) {
+            continue;
+        }
+        
+        this.convertToCoord(pos1, v, 0);
+        this.convertToCoord(pos2, v, 2);
+        
+        this.lines.push(new Line(v[0]/1000, v[1]/1000, v[2]/1000, v[3]/1000));
+        
+        i++;
+    }
+};
+
+LineSet.prototype.convertToCoord = function (pos, v, offset) {
+    var x, y;
+    
+    if (pos < 1000 || (pos >= 2000 && pos < 3000)) {
+        x = pos % 1000;
+        y = (pos < 1000) ? -10 : 1010;
+    } else {
+        x = (pos < 2000) ? 1010 : -10;
+        y = pos % 1000;
+    }
+    
+    v[offset + 0] = x;
+    v[offset + 1] = y;
+};
+
+
+
+    
+      var canvas = document.getElementById('myCanvas');
+      var c = canvas.getContext('2d');
+      
+      c.fillStyle = '#444';
+      c.fillRect(0, 0, 1000, 1000);
+      
+      //var line = new Line(100, 100, 500, 500);
+      //line.drawOnCanvas(c);
+      
+      var l = new LineSet(200);
+      for (var i = 0; i < l.lines.length; i++) {
+        l.lines[i].drawOnCanvas(c);
+      }
+
+    </script>
+  </body>
+</html>
