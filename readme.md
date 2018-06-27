@@ -1,3 +1,7 @@
+# This repository has been moved to [gitlab.com/paul-nechifor/webgl-demos](http://gitlab.com/paul-nechifor/webgl-demos).
+
+Old readme:
+
 # WebGL Demos
 
 Mostly simple things done with Three.js.
